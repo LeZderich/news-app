@@ -1,13 +1,9 @@
 <div>
     <h1>Articles</h1>
-    <ul>
-        @foreach ($articles as $article)
-            <li>
-                <a href="{{ route('articles.show', $article) }}">
-                    {{ $article->title }}
-                </a>
-            </li>
-        @endforeach
-    </ul>
-    <a href="{{ route('articles.create') }}">Create</a>
+    @foreach($articles as $article)
+        <div>
+            <h2>{{$article->title}}</h2>
+            <p>{{$article->body}}</p>
+        </div>
+    @endforeach
 </div>

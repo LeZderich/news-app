@@ -12,7 +12,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::unarchived();
         return view('articles.index', ['articles' => $articles]); // or compact('articles')
     }
 
@@ -60,9 +60,9 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function archive(Article $article)
     {
-        $article->delete();
+        $article->archive();
         return redirect()->route('articles.index');
     }
 }

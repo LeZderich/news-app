@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Article extends Model
 {
@@ -15,8 +16,17 @@ class Article extends Model
         $this->update(['archived_at' => now()]);
         $this->timestamps = true;
     }
-    static function unarchived()
+
+    public function scopeUnarchived(Builder $query)
     {
-        return self::whereNull('archived_at')->get();
+        return $query->whereNull('archived_at');
+    }
+    public function scopeArchived(Builder $query)
+    {
+        return $query->whereNotNull('archived_at');
+    }
+    public function edit()
+    {
+        $this->update(['title' => 'new title']);
     }
 }

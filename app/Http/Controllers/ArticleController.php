@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 
+
+use function Laravel\Prompts\search;
+
 class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::unarchived();
-        return view('articles.index', ['articles' => $articles]); // or compact('articles')
+
+        $articles = request()->has('archived') ? Article::archived() : Article::unarchived();
+        if ($request->has('search')){
+            $articles->where('body', 'like', '%' . $request->get('search') . '%');
+        }
+        return view('articles.index', ['articles' => $articles->get()]);
     }
 
     /**
@@ -54,13 +61,14 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        //
+        $article->update($request->all());
+        return redirect()->route('articles.show', $article);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function archive(Article $article)
+    public function destroy(Article $article)
     {
         $article->archive();
         return redirect()->route('articles.index');

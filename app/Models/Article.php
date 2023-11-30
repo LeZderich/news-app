@@ -25,6 +25,10 @@ class Article extends Model
     {
         return $query->whereNotNull('archived_at');
     }
+    public function scopeSearchBody(Builder $query, $search)
+    {
+        return $query->where('body', 'like', "%{$search}%");
+    }
     public function edit()
     {
         $this->update(['title' => 'new title']);

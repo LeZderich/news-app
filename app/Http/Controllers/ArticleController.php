@@ -17,9 +17,7 @@ class ArticleController extends Controller
     {
 
         $articles = request()->has('archived') ? Article::archived() : Article::unarchived();
-        if ($request->has('search')){
-            $articles->where('body', 'like', '%' . $request->get('search') . '%');
-        }
+        $articles = $articles->searchBody(request()->get('search'));
         return view('articles.index', ['articles' => $articles->get()]);
     }
 

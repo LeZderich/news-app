@@ -33,4 +33,8 @@ class Article extends Model
     {
         $this->update(['title' => 'new title']);
     }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

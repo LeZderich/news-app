@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 
@@ -19,3 +20,6 @@ Route::get('/', function () {
 });
 
 Route::resource('articles', ArticleController::class);
+//Route::post('/articles/{article}/comment', [CommentController::class, 'create'])->name('comment.create');
+Route::resource('articles.comments', CommentController::class)->only(['store']);
+
